@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Road+Rage&family=Roboto+Slab:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://db.onlinewebfonts.com/c/1a5c2d8bbd4e28d99a6efcbb9a5b378f?family=JejuMyeongjo');
+@import url('https://fonts.googleapis.com/css2?family=Alatsi&display=swap');
 
 @import "tailwindcss";
 
@@ -9,6 +10,7 @@
   --font-roadrage:"Road Rage", serif ;
   --font-roboto: "Roboto", serif;
   --font-jeju: "JejuMyeongjo", serif;
+  --font-alatsi: "Alatsi", serif;
   --color-grey: #FAFAFA
 }
 
@@ -20,13 +22,22 @@ button{
   cursor:pointer;
 }
 
+.mail::after{
+  width:24px;
+  height:24px;
+  position: absolute;
+  content:url("/envelope.svg");
+  left:10px;
+}
+
 body{
   width:100%;
   height:auto;
+  position:relative;
   overflow-x:hidden;
+  background:linear-gradient(0deg, rgba(36, 160, 181, 0.2) -30.37%, rgba(36, 160, 181, 0) 35.06%), #02191D;
 }
 
 img{
   pointer-events:none;
 }
-

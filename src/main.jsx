@@ -11,7 +11,7 @@ createRoot(document.getElementById('root')).render(
     <ProfilePictureProvider>
       <ErrorProvider>
         <DetailsProvider>
-          <App />
+            <App />
         </DetailsProvider>
       </ErrorProvider>
     </ProfilePictureProvider>

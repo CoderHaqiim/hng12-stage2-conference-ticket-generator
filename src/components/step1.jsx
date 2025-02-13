@@ -1,35 +1,23 @@
 import React from 'react'
-import { useState,useContext,useRef } from 'react'
+import { useState,useContext,useRef, useLayoutEffect } from 'react'
 import { DetailsContext } from './globalStates/detailsContext'
 import Ticket from './ticket'
 import Button from './button'
-import useProcesses from './hooks/processes'
-import useDetails from './hooks/detailsUpdate'
+import useProcesses from './hooks/useProcesses'
+import { ticketTypes } from './utils/ticketTypes'
+import useDetails from './hooks/useDetails'
 
 export default function Step1({step, setStep}) {
-        const [selectedTicket, setSelectedTicket] = useState(0)
         const {details, setDetails} = useContext(DetailsContext)
+
+        const [selectedTicket, setSelectedTicket] = useState(0)
         const {nextProcess, previousProcess} = useProcesses(step, setStep)
         const selectRef = useRef(null)
         const {updateDetails} = useDetails()
-    
-        const ticketTypes = [
-            {
-                type:"REGULAR ACCESS",
-                amount:"Free",
-                id:0
-            },
-            {
-                type:"VIP ACCESS",
-                amount:"$50",
-                id:1
-            },
-            {
-                type:"VVIP ACCESS",
-                amount:"$150",
-                id:2
-            },
-        ]
+
+        useLayoutEffect(()=>{
+            setSelectedTicket(details?.ticketType ?? 0)
+        },[details])
 
         const changeAction = () => {
             const tickets = selectRef.current.value
@@ -37,7 +25,7 @@ export default function Step1({step, setStep}) {
         }
 
         const style1 = { 
-            background: 'linear-gradient(160deg, #24A0B520, #24A0B500 65%)'
+            background: "radial-gradient(103.64% 57.39% at 14.02% 32.06%, rgba(36, 160, 181, 0.2) 0%, rgba(36, 160, 181, 0) 100%)"
         }
     
         const loopTickets = () => {
@@ -48,14 +36,28 @@ export default function Step1({step, setStep}) {
                 tickets.push({id:i, value:i})
                 i++
             }
-           return  tickets.map(ticket =>  <option className='text-[#02191d]' key={ticket.id} value={ticket.id}>{ticket.value}</option>)
+           return  tickets.map(ticket =>  <option className='text-[#02191d] bg-[#FFFFFF10]' key={ticket.id} value={ticket.id}>{ticket.value}</option>)
+        }
+
+        const goToNext = () =>{
+            if (details?.numberOfTickets && details?.ticketType) {
+                nextProcess()
+                return;
+            } 
+            setDetails((prev) => ({
+                ...prev,
+                ticketType: prev.ticketType ?? 0,
+                numberOfTickets: prev.numberOfTickets ?? 1,
+            }));
+
+            nextProcess()
         }
 
     return (
             <div className={`${step === 1? "flex" : "hidden"} h-[max-content] rounded-[32px] w-full lg:border-[1px] lg:bg-[#08252B] lg:border-[#0E464F]  lg:p-[24px] flex-col gap-[32px]`}>
     
-                <div className='border-[solid] w-full border-b-[2px] border-l-[2px] border-r-[2px] lg:border-[1px] gap-[24px] lg:gap-[8px] flex flex-col border-[#07373F] px-[24px] py-[16px] lg:p-[24px} lg:h-[200px] h-[max-content] rounded-[24px] bg-[#0A0C1110]' style={style1}>
-                    <div className='w-full h-[max-content] flex flex-col text-[white] justify-center items-center'>
+                <div className='border-[solid] border-t-0  w-full border-[2px] gap-[24px] lg:gap-[8px] flex flex-col border-[#07373F] px-[24px] py-[16px] lg:p-[24px} lg:h-[200px] h-[max-content] rounded-[24px] bg-[#0A0C1110]' style={style1}>
+                    <div className='w-full h-[max-content] gap-[8px] flex flex-col text-[white] justify-center items-center'>
                         <p className='text-center font-roadrage leading-[100%] text-[42px] lg:text-[62px]'>Techember Fest "25</p>
                         <p className='text-center w-full lg:w-[340px] font-roboto text-[14px] lg:text-[16px] word-wrap'>Join us for an unforgettable experience at [Event Name]! Secure your spot now.</p>
                     </div>
@@ -79,7 +81,7 @@ export default function Step1({step, setStep}) {
     
                 <div className='h-[max-content] w-full flex flex-col gap-[8px]'>
                     <h2 className='text-[white]'>Number of Tickets</h2>
-                    <select ref={selectRef} onChange={changeAction} name="number-tickets" id="number-tickets" className='w-full text-[white] border-[1px] border-[#07373F] h-[max-content] rounded-[12px] p-[12px] gap-[8px]'>
+                    <select ref={selectRef} value={details?.numberOfTickets} onChange={changeAction} name="number-tickets" id="number-tickets" className='w-full text-[white] border-[1px] border-[#07373F] h-[max-content] rounded-[12px] p-[12px] gap-[8px]'>
                         {
                             loopTickets()
                         }
@@ -87,7 +89,7 @@ export default function Step1({step, setStep}) {
                 </div>
                 <div className='h-[max-content] w-full gap-[24px] flex flex-col-reverse lg:flex-row '>
                     <Button clickAction={previousProcess} confirm={false} text="Cancel" type='zilch'/>
-                    <Button clickAction={nextProcess} confirm={true} text="Next" type='accent'/>
+                    <Button clickAction={goToNext} confirm={true} text="Next" type='accent'/>
                 </div> 
             </div>
   )

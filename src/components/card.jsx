@@ -9,7 +9,7 @@ import { useState } from 'react'
 export default function Card ({step, setStep}) {
 
   return (
-    <div className='lg:w-[700px] w-full flex flex-col gap-[32px] lg:gap-[20px] h-[max-content] rounded-[40px] p-[24px] lg:p-[48px] bg-[#08252B] border-[solid] border-[1px] border-[#0E464F]'>
+    <div className='lg:w-[700px] w-[335px] flex flex-col gap-[32px] lg:gap-[20px] h-[max-content] rounded-[40px] p-[24px] lg:p-[48px] bg-[#08252B] lg:bg-[#041E23] border-[solid] border-[1px] border-[#0E464F]'>
         <div className='flex flex-col gap-[12px] '>
             <div className='w-full items-center lg:flex-row flex items-center lg:justify-between h-auto'>
                 <Title step={step}/>

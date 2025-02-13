@@ -5,15 +5,8 @@ import { DetailsContext } from './globalStates/detailsContext'
 export default function Button({clickAction, text, confirm, type}) {
   const {details} = useContext(DetailsContext)
 
-    function checkDetails(){
-      console.log(details)
-    }
-
     function action(e){
         e.preventDefault()
-        if(confirm){
-          checkDetails()
-        }
         clickAction()
     }
 

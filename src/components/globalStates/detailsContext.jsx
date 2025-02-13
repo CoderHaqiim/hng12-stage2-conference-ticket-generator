@@ -1,9 +1,10 @@
-import {useState, createContext} from 'react'
+import {useState, createContext, useEffect} from 'react'
 
 export const DetailsContext = createContext()
 
+
 export default function DetailsProvider({children}){
-    const [details,setDetails] = useState({ticketType:0,numberOfTickets:null, name:null, profilePic:null, email:null, request:null })
+    const [details,setDetails] = useState({})
     
   return (
     <DetailsContext.Provider value={{details, setDetails}}>

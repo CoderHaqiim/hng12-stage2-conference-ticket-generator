@@ -1,20 +1,25 @@
 import React from 'react'
 import { useState, useRef, useContext} from 'react'
 import Button from './button'
-import useProcesses from './hooks/processes'
-import { ProfilePictureContext } from './globalStates/profilePictureContext'
+import useProcesses from './hooks/useProcesses'
 import { ErrorContext } from './globalStates/errorContext'
-import useDetails from './hooks/detailsUpdate'
+import useDetails from './hooks/useDetails'
+import useHttpRequest from './hooks/useHttpRequest'
+import { DetailsContext } from './globalStates/detailsContext'
+import { errorMessages } from './utils/errorMessages'
 
 export default function Step2({step, setStep}) {
+
     const {nextProcess, previousProcess} = useProcesses(step, setStep)
+    const {details} = useContext(DetailsContext)
     const {errors, setErrors} = useContext(ErrorContext)
     const pictureRef = useRef(null)
     const nameRef = useRef(null)
     const emailRef = useRef(null)
+    const [mouseOver, setMouseOver] = useState(false)
     const requestRef = useRef(null)
     const {updateDetails} = useDetails()
-    const {profilePicture, setProfilePicture} = useContext(ProfilePictureContext)
+    const {uploadImage} = useHttpRequest()
 
     const addProfilePicture = () =>{
         pictureRef.current.click()
@@ -22,20 +27,21 @@ export default function Step2({step, setStep}) {
 
     const checkValidityErrors = () => {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-        if(pictureRef.current.value == ''){
-            setErrors([...errors, {id:1,message: "upload a profile picture"}])
+
+        if(!details?.profilePicture){
+            setErrors([...errors, errorMessages[0]])
             return true
         }
         if(nameRef.current.value == ''){
-            setErrors([...errors, {id:2,message :"name is required and connot be empty"}])
+            setErrors([...errors, errorMessages[1]])
             return true
         }
         if(emailRef.current.value == ''){
-            setErrors([...errors, {id:3,message :"email is required and connot be empty"}])
+            setErrors([...errors, errorMessages[2]])
             return true
         }
         if(!emailPattern.test(emailRef.current.value)){
-            setErrors([...errors, {id:4, message :"email must be a valid email"}])
+            setErrors([...errors, errorMessages[3]])
             return true
         }
 
@@ -44,7 +50,6 @@ export default function Step2({step, setStep}) {
 
     const clickHandler = () => {
         let inputErrors = checkValidityErrors()
-
         if(inputErrors){
             return
         }
@@ -54,9 +59,10 @@ export default function Step2({step, setStep}) {
 
     const getFile = () => {
         let file = pictureRef.current.files[0]
-        let fileUrl = URL.createObjectURL(file)
-        setProfilePicture(fileUrl)
-        console.log(fileUrl)
+        uploadImage(file)
+        // let fileUrl = URL.createObjectURL(file)
+        // setProfilePicture(fileUrl)
+        // console.log(fileUrl)
     }
 
     const storeName = () =>{
@@ -83,18 +89,19 @@ export default function Step2({step, setStep}) {
                     <p className='font-roboto text-left w-full text-[16px] text-grey'>Upload Profile Photo</p>
                     <div className='w-full h-[200px] flex justify-center items-center lg:bg-[#00000020]'>
                         <input onChange={getFile} ref={pictureRef} type="file" accept='.jpeg, .jpg, .png' className=' absolute invisible w-[20px] h-[20px]' />
-                        <button onClick={addProfilePicture} type='button' className='w-[240px] relative h-[240px] rounded-[32px] p-[24px] bg-[#0E464F] border-[2px] border-[#24A0B5]'>
+                        <button onMouseOver={()=>{setMouseOver(true)}} onMouseOut={()=>{setMouseOver(false)}} onClick={addProfilePicture} type='button' className='w-[240px] relative h-[240px] rounded-[32px] bg-[#0E464F] border-[2px] border-[#24A0B5]'>
                             {
                                 errors.length !== 0? 
-                                errors[0]?.id === 1? <span className='flex w-[max-content] mx-auto p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#FFFFFF70] top-[-10px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
+                                errors[0]?.id === 1? <span className='flex w-[max-content] left-[38px] p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#00000050] top-[20px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
                                 <></>
                             }
                             <span className='w-full h-full rounded-[inherit]'>
-                                <span className={`${profilePicture? "hidden":"flex"} flex-col items-center justify-center gap-[10px]`}>
+                            <span className={`${details?.profilePicture?(mouseOver ? 'flex' : 'hidden') : 'flex'}
+                                    flex-col z-[5] w-full h-full relative p-[20px] items-center justify-center gap-[10px]`}>
                                     <img className='w-[32px] h-[32px]' src="/cloud-download.svg" alt="download-image" />
                                     <p className='text-center text-[16px] font-roboto text-grey'> Drag & drop or click to upload</p>
                                 </span>
-                                <img src={profilePicture || " "} alt="profile-picture" className={`${profilePicture?'flex':'hidden'} w-full h-full rounded-[inherit]`}/>
+                                <img src={details?.profilePicture || " "} alt="profile-picture" className={`${details?.profilePicture? 'flex':'hidden'} w-full absolute top-0 left-0 h-full rounded-[inherit]`}/>
                             </span>
                         </button>
                     </div>
@@ -104,7 +111,7 @@ export default function Step2({step, setStep}) {
 
                 <label htmlFor="name" className='w-full flex text-grey font-roboto flex-col gap-[8px]'>
                     <p>Enter your name</p>
-                    <input ref={nameRef} onChange={storeName} required type="text" name='name' className='w-full h-[48px] p-[12px] rounded-[12px] border-[1px] border-[#07373F] ' />
+                    <input ref={nameRef} defaultValue={details?.name} onChange={storeName} required type="text" name='name' className='w-full h-[48px] p-[12px] rounded-[12px] border-[1px] border-[#07373F] ' />
                     {
                          errors.length !== 0? 
                          errors[0]?.id === 2? <span className='flex w-full text-left text-[12px] font-roboto text-[#f0dd2c]'>{errors[0]?.message}</span> : <></>:
@@ -114,7 +121,9 @@ export default function Step2({step, setStep}) {
 
                 <label htmlFor="email" className='w-full flex text-grey font-roboto flex-col gap-[8px]'>
                     <p>Enter your email *</p>
-                    <input ref={emailRef} onChange={storeEmail} required type="text" name='email' className='email relative w-full h-[48px] p-[12px] font-roboto text-grey rounded-[12px] border-[1px] border-[#07373F] ' />
+                    <span className='mail relative flex items-center w-full h-[max-content]'>
+                        <input ref={emailRef} defaultValue={details?.email} onChange={storeEmail} required type="text" placeholder="hello@avioflagos.io" name='email' className='email relative w-full h-[48px] pl-[40px]  p-[12px] font-roboto text-grey rounded-[12px] border-[1px] border-[#07373F] ' />
+                    </span>
                     {
                         errors.length !== 0? 
                         (
@@ -127,7 +136,7 @@ export default function Step2({step, setStep}) {
 
                 <label htmlFor="name" className='w-full flex text-grey font-roboto flex-col gap-[8px]'>
                     <p>Special request?</p>
-                    <textarea required ref={requestRef} onChange={storeRequest} className="r-[12px] resize-none w-full h-[127px] border-[1px] border-[#07373F] text-roboto text-grey p-[12px] rounded-[12px]" defaultValue='Textarea' name="request" id="request"></textarea>
+                    <textarea required ref={requestRef} onChange={storeRequest} className="r-[12px] resize-none w-full h-[127px] border-[1px] border-[#07373F] text-roboto text-grey p-[12px] rounded-[12px]" defaultValue={details?.request}  name="request" id="request"></textarea>
                 </label>
                 
                 <div className='h-[max-content] w-full gap-[24px] flex flex-col-reverse lg:flex-row '>
