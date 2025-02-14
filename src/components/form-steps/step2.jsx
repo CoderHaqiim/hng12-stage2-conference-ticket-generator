@@ -7,6 +7,7 @@ import { ErrorContext } from '../globalStates/errorContext'
 import useDetails from '../hooks/useDetails'
 import useHttpRequest from '../hooks/useHttpRequest'
 import { DetailsContext } from '../globalStates/detailsContext'
+import { ImageLoadingContext } from '../globalStates/imageLoadingContext'
 
 export default function Step2({step, setStep}) {
 
@@ -20,6 +21,7 @@ export default function Step2({step, setStep}) {
     const requestRef = useRef(null)
     const {updateDetails} = useDetails()
     const {uploadImage} = useHttpRequest()
+    const {imageLoading, setImageLoading} = useContext(ImageLoadingContext)
 
     const addProfilePicture = () =>{
         pictureRef.current.click()
@@ -101,7 +103,7 @@ export default function Step2({step, setStep}) {
                             <span className={`${details?.profilePicture?(mouseOver ? 'flex' : 'hidden') : 'flex'}
                                     flex-col z-[5] w-full h-full bg-[#00000030] relative p-[20px] items-center justify-center gap-[10px]`}>
                                     <img className='w-[32px] h-[32px]' src="/cloud-download.svg" alt="download-image" />
-                                    <p className='text-center text-[16px] font-roboto text-grey'> Drag & drop or click to upload</p>
+                                    <p className='text-center text-[16px] font-roboto text-grey'> {imageLoading? "loading..." : "Drag & drop or click to upload"}</p>
                                 </span>
                                 <img src={details?.profilePicture || " "} alt="profile-picture" className={`${details?.profilePicture? 'flex':'hidden'} w-full absolute top-0 left-0 h-full rounded-[inherit]`}/>
                             </span>

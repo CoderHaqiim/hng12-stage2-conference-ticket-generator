@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import { ProfilePictureContext } from '../globalStates/profilePictureContext';
 import useDetails from './useDetails';
+import { ImageLoadingContext } from '../globalStates/imageLoadingContext';
 import axios from 'axios'
 
 export default function useHttpRequest() {
     const {setProfilePicture} = useContext(ProfilePictureContext)
+    const {setImageLoading} = useContext(ImageLoadingContext)
     const {updateDetails} = useDetails()
     const webName = import.meta.env.VITE_WEB_NAME;
     const webId = import.meta.env.VITE_WEB_ID;
@@ -14,6 +16,8 @@ export default function useHttpRequest() {
            alert ("upload a jpg, jpeg or png file");
           return;
         }
+
+        setImageLoading(true)
     
         const formData = new FormData();
         formData.append("file", image);
@@ -36,6 +40,9 @@ export default function useHttpRequest() {
             else alert('Some error occured while trying to upload your picture 😔')
       
           //  console.error(error)
+        }
+        finally{
+          setImageLoading(false)
         }
       };
 
