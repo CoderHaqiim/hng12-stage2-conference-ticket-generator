@@ -24,7 +24,7 @@ function App() {
 
   return (
     <div className=' flex flex-col gap-[32px] lg:gap-[80px] items-center py-[48px] min-h-[1249px] lg:py-[34px] px-[20px] lg-px-[0] min-h-[600px] w-full h-[auto]'>
-      <Header/>
+      <Header setStep={setStep} />
       <div className='w-full h-auto flex items-start justify-center'>
         <Card step={step} setStep={setStep}/>
       </div>
