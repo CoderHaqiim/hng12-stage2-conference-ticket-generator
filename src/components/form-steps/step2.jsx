@@ -99,7 +99,7 @@ export default function Step2({step, setStep}) {
                             }
                             <span className='w-full h-full rounded-[inherit]'>
                             <span className={`${details?.profilePicture?(mouseOver ? 'flex' : 'hidden') : 'flex'}
-                                    flex-col z-[5] w-full h-full relative p-[20px] items-center justify-center gap-[10px]`}>
+                                    flex-col z-[5] w-full h-full bg-[#00000030] relative p-[20px] items-center justify-center gap-[10px]`}>
                                     <img className='w-[32px] h-[32px]' src="/cloud-download.svg" alt="download-image" />
                                     <p className='text-center text-[16px] font-roboto text-grey'> Drag & drop or click to upload</p>
                                 </span>
