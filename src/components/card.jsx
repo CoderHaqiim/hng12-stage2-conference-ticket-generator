@@ -15,7 +15,7 @@ export default function Card ({step, setStep}) {
                 <Steps step={step}/>
             </div>
             <div className='w-full h-[4px] bg-[#0E464F] rounded-[5px]'>
-                <div className={`${step === 1? "w-[33.3%]": step === 2? "w-[66.6%]" : "w-[100%]"} h-full bg-[#24A0B5] rounded-[inherit]`}></div>
+                <div className={`${step === 1? "w-[33.3%]": step === 2? "w-[66.6%]" : "w-[100%]"} transition-[1s]  h-full bg-[#24A0B5] rounded-[inherit]`}></div>
             </div>
         </div>
         <Step1 step={step} setStep={setStep}/>
