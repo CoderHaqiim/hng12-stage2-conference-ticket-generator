@@ -94,7 +94,7 @@ export default function Step2({step, setStep}) {
                         <button onMouseOver={()=>{setMouseOver(true)}} onMouseOut={()=>{setMouseOver(false)}} onClick={addProfilePicture} type='button' className='w-[240px] relative h-[240px] rounded-[32px] bg-[#0E464F] border-[2px] border-[#24A0B5]'>
                             {
                                 errors.length !== 0? 
-                                errors[0]?.id === 1? <span aria-live="assertive" className='flex w-[max-content] left-[45px] p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#00000050] top-[20px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
+                                errors[0]?.id === 1? <span aria-live="assertive" className=' flex w-[max-content] left-[45px] p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#00000050] top-[20px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
                                 <></>
                             }
                             <span className='w-full h-full rounded-[inherit]'>
