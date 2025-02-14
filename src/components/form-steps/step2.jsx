@@ -1,12 +1,12 @@
 import React from 'react'
 import { useState, useRef, useContext} from 'react'
-import Button from './button'
-import useProcesses from './hooks/useProcesses'
-import { ProfilePictureContext } from './globalStates/profilePictureContext'
-import { ErrorContext } from './globalStates/errorContext'
-import useDetails from './hooks/useDetails'
-import useHttpRequest from './hooks/useHttpRequest'
-import { DetailsContext } from './globalStates/detailsContext'
+import Button from '../button'
+import useProcesses from '../hooks/useProcesses'
+import { ProfilePictureContext } from '../globalStates/profilePictureContext'
+import { ErrorContext } from '../globalStates/errorContext'
+import useDetails from '../hooks/useDetails'
+import useHttpRequest from '../hooks/useHttpRequest'
+import { DetailsContext } from '../globalStates/detailsContext'
 
 export default function Step2({step, setStep}) {
 
@@ -86,7 +86,7 @@ export default function Step2({step, setStep}) {
 
 
     return (
-            <form className={`${step === 2? "flex" : "hidden"} h-[max-content] rounded-[32px] w-full lg:border-[1px] lg:bg-[#08252B] lg:border-[#0E464F]  lg:p-[24px] flex-col gap-[24px]`}>
+            <form className={`${step === 2? "flex" : "hidden"} form h-[max-content] rounded-[32px] w-full lg:border-[1px] lg:bg-[#08252B] lg:border-[#0E464F]  lg:p-[24px] flex-col gap-[24px]`}>
                 <div className='w-full relative h-[max-content] gap-[32px] items-center justify-center pb-[48px] p-[24px] bg-[#052228] flex flex-col rounded-[24px] border-[1px] border-[#07373F]'>
                     <p className='font-roboto text-left w-full text-[16px] text-grey'>Upload Profile Photo</p>
                     <div className='w-full h-[200px] flex justify-center items-center lg:bg-[#00000020]'>

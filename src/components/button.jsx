@@ -1,9 +1,6 @@
 import React from 'react'
-import { useContext } from 'react'
-import { DetailsContext } from './globalStates/detailsContext'
 
-export default function Button({clickAction, text, confirm, type}) {
-  const {details} = useContext(DetailsContext)
+export default function Button({clickAction, text, type}) {
 
     function action(e){
         e.preventDefault()

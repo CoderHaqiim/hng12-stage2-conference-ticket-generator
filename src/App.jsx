@@ -6,9 +6,7 @@ import useStorage from './components/hooks/useStorage'
 
 function App() {
   const {details, setDetails} = useContext(DetailsContext)
-
   const [step, setStep] = useState(() => Number(localStorage.getItem("currentStep")) || 1 );
-
   const {addToStorage} = useStorage()
 
   useEffect(() => {

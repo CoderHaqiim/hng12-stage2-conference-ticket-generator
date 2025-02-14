@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState, useContext } from 'react'
-import Button from './button'
-import useProcesses from './hooks/useProcesses'
-import { ProfilePictureContext } from './globalStates/profilePictureContext'
-import { DetailsContext } from './globalStates/detailsContext'
-import { ticketTypes } from './utils/ticketTypes'
+import Button from '../button'
+import useProcesses from '../hooks/useProcesses'
+import { ProfilePictureContext } from '../globalStates/profilePictureContext'
+import { DetailsContext } from '../globalStates/detailsContext'
+import { ticketTypes } from '../utils/ticketTypes'
 
 export default function Step3({step, setStep}) {
     const {nextProcess, previousProcess} = useProcesses(step, setStep)
@@ -12,7 +12,7 @@ export default function Step3({step, setStep}) {
     const {details} = useContext(DetailsContext)
 
     return (
-            <div className={`${step === 3? "flex" : "hidden"} h-[max-content] rounded-[32px] w-full lg:bg-[#08252B] items-center lg:p-[24px] flex-col gap-[32px]`}>
+            <div className={`${step === 3? "flex" : "hidden"} form h-[max-content] rounded-[32px] w-full lg:bg-[#08252B] items-center lg:p-[24px] flex-col gap-[32px]`}>
                 <div className='w-full flex flex-col gap-[12px]  h-[max-content] text-center'>
                     <h1 className='text-[white] font-alatsi text-[24px] lg:text-[32px] '>Your Ticket is Booked!</h1>
                     <p className='lg:flex hidden text-center justify-center leading-[150%] font-roboto text-grey text-center text-[16px]'>Check your email for a copy or you can 

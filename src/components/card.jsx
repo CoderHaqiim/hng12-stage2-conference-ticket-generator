@@ -1,10 +1,9 @@
 import React from 'react'
 import Title from './title'
 import Steps from './steps'
-import Step1 from './step1'
-import Step2 from './step2'
-import Step3 from './step3'
-import { useState } from 'react'
+import Step1 from './form-steps/step1'
+import Step2 from './form-steps/step2'
+import Step3 from './form-steps/step3'
 
 export default function Card ({step, setStep}) {
 

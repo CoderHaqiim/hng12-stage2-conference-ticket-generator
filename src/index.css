@@ -18,7 +18,7 @@ button .btn{
   font-family: "JejuMyeongjo", serif;
 }
 
-button{
+button,select,input{
   cursor:pointer;
 }
 
@@ -40,4 +40,19 @@ body{
 
 img{
   pointer-events:none;
+}
+
+.form{
+  animation: fadein .4s ease-out forwards;
+}
+
+@keyframes fadein {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
