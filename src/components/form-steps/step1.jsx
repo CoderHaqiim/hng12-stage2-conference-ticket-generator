@@ -54,7 +54,7 @@ export default function Step1({step, setStep}) {
         }
 
     return (
-            <form className={`${step === 1? "flex" : "hidden"} h-[max-content] rounded-[32px] w-full lg:border-[1px] lg:bg-[#08252B] lg:border-[#0E464F]  lg:p-[24px] flex-col gap-[32px]`}>
+            <form className={`${step === 1? "flex" : "hidden"} form h-[max-content] rounded-[32px] w-full lg:border-[1px] lg:bg-[#08252B] lg:border-[#0E464F]  lg:p-[24px] flex-col gap-[32px]`}>
     
                 <div className='border-[solid] border-t-0  w-full border-[2px] gap-[24px] lg:gap-[8px] flex flex-col border-[#07373F] px-[24px] py-[16px] lg:p-[24px} lg:h-[200px] h-[max-content] rounded-[24px] bg-[#0A0C1110]' style={style1}>
                     <div className='w-full h-[max-content] gap-[8px] flex flex-col text-[white] justify-center items-center'>
