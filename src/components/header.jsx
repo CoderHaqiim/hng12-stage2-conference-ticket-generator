@@ -17,7 +17,7 @@ export default function Header() {
         </div>
 
         <nav className='hidden md:flex'>
-            <ul className='flex items-center h-[max-content] list-style-none gap-[16px] text-18px text-white'>
+            <ul role='list' className='flex items-center h-[max-content] list-style-none gap-[16px] text-18px text-white'>
                 {
                     items.map(item => <Navlink key={item.id} id={item.id} name={item.name} selectedNav={selectedNav} setSelectedNav={setSelectedNav}/>)
                 }

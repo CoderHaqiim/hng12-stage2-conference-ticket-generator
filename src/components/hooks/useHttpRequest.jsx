@@ -6,20 +6,22 @@ import axios from 'axios'
 export default function useHttpRequest() {
     const {setProfilePicture} = useContext(ProfilePictureContext)
     const {updateDetails} = useDetails()
+    const webName = import.meta.env.VITE_WEB_NAME;
+    const webId = import.meta.env.VITE_WEB_ID;
 
     const uploadImage = async (image) => {
         if (!image) {
-           alert ("upload a jpg or png file");
+           alert ("upload a jpg, jpeg or png file");
           return;
         }
     
         const formData = new FormData();
         formData.append("file", image);
-        formData.append("upload_preset", "cactusplant");
+        formData.append("upload_preset", webId);
     
         try {
           const response = await axios.post(
-            "https://api.cloudinary.com/v1_1/dfzc5vqlk/image/upload",
+            `https://api.cloudinary.com/v1_1/${webName}/image/upload`,
             formData
           );
           let pic = response.data.secure_url

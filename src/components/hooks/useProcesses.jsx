@@ -7,6 +7,7 @@ export default function useProcesses(step, setStep) {
             setStep(prev => prev + 1)
         }else{
             setStep(3)
+            alert('Ticket downloaded sucessfully. 😒🤥 You can book another Ticket')
         }
     }
 

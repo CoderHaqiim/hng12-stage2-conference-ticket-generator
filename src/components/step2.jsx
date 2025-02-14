@@ -2,11 +2,11 @@ import React from 'react'
 import { useState, useRef, useContext} from 'react'
 import Button from './button'
 import useProcesses from './hooks/useProcesses'
+import { ProfilePictureContext } from './globalStates/profilePictureContext'
 import { ErrorContext } from './globalStates/errorContext'
 import useDetails from './hooks/useDetails'
 import useHttpRequest from './hooks/useHttpRequest'
 import { DetailsContext } from './globalStates/detailsContext'
-import { errorMessages } from './utils/errorMessages'
 
 export default function Step2({step, setStep}) {
 
@@ -29,19 +29,19 @@ export default function Step2({step, setStep}) {
         const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
         if(!details?.profilePicture){
-            setErrors([...errors, errorMessages[0]])
+            setErrors([...errors, {id:1, message: "upload a profile picture"}])
             return true
         }
         if(nameRef.current.value == ''){
-            setErrors([...errors, errorMessages[1]])
+            setErrors([...errors, {id:2, message :"name is required and can not be empty"}])
             return true
         }
         if(emailRef.current.value == ''){
-            setErrors([...errors, errorMessages[2]])
+            setErrors([...errors, {id:3, message :"email is required and can not be empty"}])
             return true
         }
         if(!emailPattern.test(emailRef.current.value)){
-            setErrors([...errors, errorMessages[3]])
+            setErrors([...errors, {id:4, message :"email must be a valid email"}])
             return true
         }
 
@@ -50,6 +50,7 @@ export default function Step2({step, setStep}) {
 
     const clickHandler = () => {
         let inputErrors = checkValidityErrors()
+
         if(inputErrors){
             return
         }
@@ -60,6 +61,7 @@ export default function Step2({step, setStep}) {
     const getFile = () => {
         let file = pictureRef.current.files[0]
         uploadImage(file)
+        setErrors([])
         // let fileUrl = URL.createObjectURL(file)
         // setProfilePicture(fileUrl)
         // console.log(fileUrl)
@@ -92,7 +94,7 @@ export default function Step2({step, setStep}) {
                         <button onMouseOver={()=>{setMouseOver(true)}} onMouseOut={()=>{setMouseOver(false)}} onClick={addProfilePicture} type='button' className='w-[240px] relative h-[240px] rounded-[32px] bg-[#0E464F] border-[2px] border-[#24A0B5]'>
                             {
                                 errors.length !== 0? 
-                                errors[0]?.id === 1? <span className='flex w-[max-content] left-[38px] p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#00000050] top-[20px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
+                                errors[0]?.id === 1? <span aria-live="assertive" className='flex w-[max-content] left-[45px] p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#00000050] top-[20px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
                                 <></>
                             }
                             <span className='w-full h-full rounded-[inherit]'>
@@ -110,11 +112,11 @@ export default function Step2({step, setStep}) {
                 <div className='w-full h-[4px] bg-[#07373F]'></div>
 
                 <label htmlFor="name" className='w-full flex text-grey font-roboto flex-col gap-[8px]'>
-                    <p>Enter your name</p>
-                    <input ref={nameRef} defaultValue={details?.name} onChange={storeName} required type="text" name='name' className='w-full h-[48px] p-[12px] rounded-[12px] border-[1px] border-[#07373F] ' />
+                    <p>Enter your name *</p>
+                    <input ref={nameRef} placeholder='enter your name' defaultValue={details?.name} onChange={storeName} required type="text" name='name' className='w-full h-[48px] p-[12px] rounded-[12px] border-[1px] border-[#07373F] ' />
                     {
                          errors.length !== 0? 
-                         errors[0]?.id === 2? <span className='flex w-full text-left text-[12px] font-roboto text-[#f0dd2c]'>{errors[0]?.message}</span> : <></>:
+                         errors[0]?.id === 2? <span aria-live="assertive" className='flex w-full text-left text-[12px] font-roboto text-[#f0dd2c]'>{errors[0]?.message}</span> : <></>:
                          <></>
                     }
                 </label>
@@ -127,8 +129,8 @@ export default function Step2({step, setStep}) {
                     {
                         errors.length !== 0? 
                         (
-                            errors[0]?.id === 3? <span className='flex w-full text-left text-[12px] font-roboto text-[#f0dd2c]'>{errors[0]?.message}</span> : 
-                            errors[0]?.id === 4? <span className='flex w-full text-left text-[12px] font-roboto text-[#f0dd2c]'>{errors[0]?.message}</span> :
+                            errors[0]?.id === 3? <span aria-live="assertive" className='flex w-full text-left text-[12px] font-roboto text-[#f0dd2c]'>{errors[0]?.message}</span> : 
+                            errors[0]?.id === 4? <span aria-live="assertive" className='flex w-full text-left text-[12px] font-roboto text-[#f0dd2c]'>{errors[0]?.message}</span> :
                             <></>
                         ):<></>
                     }
@@ -136,7 +138,7 @@ export default function Step2({step, setStep}) {
 
                 <label htmlFor="name" className='w-full flex text-grey font-roboto flex-col gap-[8px]'>
                     <p>Special request?</p>
-                    <textarea required ref={requestRef} onChange={storeRequest} className="r-[12px] resize-none w-full h-[127px] border-[1px] border-[#07373F] text-roboto text-grey p-[12px] rounded-[12px]" defaultValue={details?.request}  name="request" id="request"></textarea>
+                    <textarea required ref={requestRef} placeholder='Text area' onChange={storeRequest} className="r-[12px] resize-none w-full h-[127px] border-[1px] border-[#07373F] text-roboto text-grey p-[12px] rounded-[12px]" defaultValue={details?.request}  name="request" id="request"></textarea>
                 </label>
                 
                 <div className='h-[max-content] w-full gap-[24px] flex flex-col-reverse lg:flex-row '>
