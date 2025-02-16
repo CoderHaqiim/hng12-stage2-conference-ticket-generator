@@ -14,13 +14,14 @@ export default function useProcesses(step, setStep) {
     }
 
     const previousProcess = () => {
-        if(step > 1 && !3){
+        if(step > 1 && step !== 3){
             setStep(prev => prev - 1)
         }
         else{
             localStorage.clear()
             setDetails({})
-            setStep(1)
+            // setStep(1)
+            window.location.href="/"
         }
     }
 
