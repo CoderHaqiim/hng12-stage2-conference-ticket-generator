@@ -1,15 +1,28 @@
 import React from 'react'
-import { useState, useContext } from 'react'
+import { useState, useContext, useRef } from 'react'
 import Button from '../button'
 import useProcesses from '../hooks/useProcesses'
 import { ProfilePictureContext } from '../globalStates/profilePictureContext'
 import { DetailsContext } from '../globalStates/detailsContext'
 import { ticketTypes } from '../utils/ticketTypes'
+import useDownloadTickets from '../hooks/downloadTickets'
 
 export default function Step3({step, setStep}) {
-    const {nextProcess, previousProcess} = useProcesses(step, setStep)
+    const {previousProcess} = useProcesses(step, setStep)
     const {profilePicture} = useContext(ProfilePictureContext)
     const {details} = useContext(DetailsContext)
+    const ticketRef = useRef(null)
+    const {downloadTicket} = useDownloadTickets() 
+
+    const shortenWord = (word, length) => {
+        const shortWord = word.slice(0,length) + '...'
+
+        return word.length > length ? shortWord : word
+    }
+
+    const download = () => {
+        downloadTicket(ticketRef, details?.name)
+    }
 
     return (
             <div className={`${step === 3? "flex" : "hidden"} form h-[max-content] rounded-[32px] w-full lg:bg-[#08252B] items-center lg:p-[24px] flex-col gap-[32px]`}>
@@ -24,12 +37,12 @@ export default function Step3({step, setStep}) {
 
                 </div>
 
-                <div className='w-[300px] h-[600px] flex flex-col p-[24px] justify-center relative'>
+                <div ref={ticketRef} className='w-[300px] h-[600px] flex flex-col items-center p-[24px] justify-center relative'>
                     <div className='absolute w-full h-full top-0 left-0'>
                         <img src="/subtract.svg" alt="" />
                     </div>
 
-                    <div className='w-[260px] z-[2] h-[446px] items-center flex flex-col gap-[20px] rounded-[16px] p-[14px] bg-[#031E1210] border-[1px] border-[#24A0B5]'>
+                    <div className='w-[260px] z-[2] h-[446px] items-center justify-center flex flex-col gap-[20px] rounded-[16px] p-[14px] bg-[#031E1210] border-[1px] border-[#24A0B5]'>
                         <div className='w-[175px] text-grey  text-center h-[max-content] flex-col justify-center flex '>
                             <p className='font-roadrage leading-[100%] text-[34px] w-full' >Techember Fest "25</p>
                             <p className='w-full font-roboto text-[10px]'>📍 04 Rumens road, Ikoyi, Lagos</p>
@@ -42,12 +55,12 @@ export default function Step3({step, setStep}) {
                         <div className='p-[4px] w-full h-[max-content] items-center justify-center bg-[#08343C] rounded-[8px] border-[1px] border-[#133D44]'>
                             <div className='w-full h-[max-content] border-b-[1px] border-[#12464E] gap-[8px] flex'>
                                 <div className='w-[calc(50%-8px)] text-grey gap-[4px] border-r-[1px] border-[#12464E] py-[4px] p-[3px] flex flex-col h-[max-content]'>
-                                    <p className='text-[10px] font-roboto text-left opacity-[33%]'>Enter your name</p>
-                                    <p className='text-[10px] font-bold font-roboto'>{details?.name}</p>
+                                    <p className='text-[10px] w-full font-roboto text-left opacity-[33%]'>Enter your name</p>
+                                    <p className='text-[10px] w-full word-wrap whitespace-wrap font-bold font-roboto'>{details?.name && shortenWord(details.name, 20)}</p>
                                 </div>
-                                <div className='w-auto flex-1 text-grey gap-[4px] py-[4px] p-[3px] flex flex-col h-[max-content]'>
+                                <div className='w-1/2 flex-1 text-grey gap-[4px] py-[4px] p-[3px] flex flex-col h-[max-content]'>
                                     <p className='text-[10px] font-roboto text-left opacity-[33%]'>Enter your email*</p>
-                                    <p className='text-[10px] font-bold font-roboto'>{details?.email}</p>
+                                    <p className='text-[10px] w-full max-w-[20px] word-wrap whitespace-wrap font-bold font-roboto'>{details?.email && shortenWord(details.email, 20)}</p>
                                 </div>
                             </div>
                             <div className='w-full h-[max-content] gap-[8px] pb-[0px] pt-[0px] flex'>
@@ -57,12 +70,12 @@ export default function Step3({step, setStep}) {
                                 </div>
                                 <div className='w-auto flex-1 text-grey gap-[4px] py-[4px] p-[3px] flex flex-col h-[max-content]'>
                                     <p className='text-[10px] font-roboto text-left opacity-[33%]'>Ticket for:</p>
-                                    <p className='text-[10px] font-bold font-roboto'>{details?.numberOfTickets}</p>
+                                    <p className='text-[10px] word-wrap whitespace-wrap font-bold font-roboto'>{details?.numberOfTickets}</p>
                                 </div>
                             </div>
                             <div className='w-full h-[max-content] border-t-[1px] border-[#12464E] gap-[8px] p-[8px]'>
                                 <p className='text-[10px] font-roboto opacity-[33%] text-[white]'> Special request?</p>
-                                <p className='text-[10px] font-roboto text-[white] '>{details?.request}</p>
+                                <p className='text-[10px] flex-wrap w-full font-roboto break-words text-[white] '>{details?.request && shortenWord(details.request, 100)}</p>
                             </div>
                         </div>
                     </div>
@@ -73,7 +86,7 @@ export default function Step3({step, setStep}) {
 
                 <div className='h-[max-content] w-full gap-[24px] flex flex-col-reverse lg:flex-row '>
                     <Button clickAction={previousProcess} text= "Book Another Ticket" type='zilch'/>
-                    <Button clickAction={nextProcess} confirm={false} text="Download Ticket" type='accent'/>
+                    <Button clickAction={download} confirm={false} text="Download Ticket" type='accent'/>
                 </div> 
             </div>
   )

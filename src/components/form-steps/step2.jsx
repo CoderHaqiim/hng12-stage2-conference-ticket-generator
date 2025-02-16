@@ -140,7 +140,7 @@ export default function Step2({step, setStep}) {
 
                 <label htmlFor="name" className='w-full flex text-grey font-roboto flex-col gap-[8px]'>
                     <p>Special request?</p>
-                    <textarea required ref={requestRef} placeholder='Text area' onChange={storeRequest} className="r-[12px] resize-none w-full h-[127px] border-[1px] border-[#07373F] text-roboto text-grey p-[12px] rounded-[12px]" defaultValue={details?.request}  name="request" id="request"></textarea>
+                    <textarea maxLength={100} rows={3} required ref={requestRef} placeholder='Text area' onChange={storeRequest} className="r-[12px] resize-none w-full h-[127px] border-[1px] border-[#07373F] text-roboto text-grey p-[12px] rounded-[12px]" defaultValue={details?.request}  name="request" id="request"></textarea>
                 </label>
                 
                 <div className='h-[max-content] w-full gap-[24px] flex flex-col-reverse lg:flex-row '>

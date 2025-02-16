@@ -16,6 +16,7 @@ export default function useProcesses(step, setStep) {
             setStep(prev => prev - 1)
         }
         else{
+            localStorage.clear()
             setStep(1)
         }
     }
