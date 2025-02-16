@@ -6,6 +6,7 @@ import useStorage from './components/hooks/useStorage'
 
 function App() {
   const {details, setDetails} = useContext(DetailsContext)
+  const [downloading, setDownloading] = useState(false)
   const [step, setStep] = useState(() => Number(localStorage.getItem("currentStep")) || 1 );
   const {addToStorage} = useStorage()
 
@@ -26,7 +27,7 @@ function App() {
     <div className=' flex flex-col gap-[32px] lg:gap-[80px] items-center py-[48px] min-h-[1249px] lg:py-[34px] px-[20px] lg-px-[0] min-h-[600px] w-full h-[auto]'>
       <Header setStep={setStep} />
       <div className='w-full h-auto flex items-start justify-center'>
-        <Card step={step} setStep={setStep}/>
+        <Card step={step} setStep={setStep} downloading={downloading} setDownloading={setDownloading}/>
       </div>
     </div>
   )

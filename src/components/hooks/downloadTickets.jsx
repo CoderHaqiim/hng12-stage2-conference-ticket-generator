@@ -2,7 +2,7 @@ import React from 'react'
 import { toPng } from 'html-to-image';
 
 export default function useDownloadTickets() {
-    const downloadTicket = (ref, name) => {
+    const downloadTicket = (ref, name, setDownloading) => {
         if(!ref.current){
             console.log('no ref')
         }
@@ -16,6 +16,9 @@ export default function useDownloadTickets() {
         .catch((err) => {
           console.log(err)
         })
+        .finally(
+            setDownloading(false)
+        )
     }
 
     return {downloadTicket}

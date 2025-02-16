@@ -7,7 +7,7 @@ import { DetailsContext } from '../globalStates/detailsContext'
 import { ticketTypes } from '../utils/ticketTypes'
 import useDownloadTickets from '../hooks/downloadTickets'
 
-export default function Step3({step, setStep}) {
+export default function Step3({step, setStep, setDownloading}) {
     const {previousProcess} = useProcesses(step, setStep)
     const {profilePicture} = useContext(ProfilePictureContext)
     const {details} = useContext(DetailsContext)
@@ -21,7 +21,8 @@ export default function Step3({step, setStep}) {
     }
 
     const download = () => {
-        downloadTicket(ticketRef, details?.name)
+        setDownloading(true)
+        downloadTicket(ticketRef, details?.name, setDownloading)
     }
 
     return (
