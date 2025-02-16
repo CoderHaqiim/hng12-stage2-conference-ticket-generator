@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import { DetailsContext } from '../globalStates/detailsContext'
 
 export default function useProcesses(step, setStep) {
+    const {setDetails} = useContext(DetailsContext)
 
     const nextProcess = () =>{
         if(step < 3){
             setStep(prev => prev + 1)
         }else{
             setStep(3)
-            alert('Ticket downloaded sucessfully. 😒🤥 You can book another Ticket')
+            // alert('Ticket downloaded sucessfully. 😒🤥 You can book another Ticket')
         }
     }
 
@@ -17,6 +19,7 @@ export default function useProcesses(step, setStep) {
         }
         else{
             localStorage.clear()
+            setDetails({})
             setStep(1)
         }
     }
