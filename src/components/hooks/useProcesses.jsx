@@ -18,10 +18,10 @@ export default function useProcesses(step, setStep) {
             setStep(prev => prev - 1)
         }
         else{
-            localStorage.clear()
-            setDetails({})
-            // setStep(1)
-            window.location.href="/"
+            // localStorage.clear()
+            // setDetails({})
+            setStep(1)
+            // window.location.href="/"
         }
     }
 

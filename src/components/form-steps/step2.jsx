@@ -7,10 +7,10 @@ import { ErrorContext } from '../globalStates/errorContext'
 import useDetails from '../hooks/useDetails'
 import useHttpRequest from '../hooks/useHttpRequest'
 import { DetailsContext } from '../globalStates/detailsContext'
+import { ticketTypes } from '../utils/ticketTypes'
 import { ImageLoadingContext } from '../globalStates/imageLoadingContext'
 
 export default function Step2({step, setStep}) {
-
     const {nextProcess, previousProcess} = useProcesses(step, setStep)
     const {details} = useContext(DetailsContext)
     const {errors, setErrors} = useContext(ErrorContext)
@@ -96,7 +96,7 @@ export default function Step2({step, setStep}) {
                         <button onMouseOver={()=>{setMouseOver(true)}} onMouseOut={()=>{setMouseOver(false)}} onClick={addProfilePicture} type='button' className='w-[240px] relative h-[240px] rounded-[32px] bg-[#0E464F] border-[2px] border-[#24A0B5]'>
                             {
                                 errors.length !== 0? 
-                                errors[0]?.id === 1? <span aria-live="assertive" className=' flex w-[max-content] left-[45px] p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#00000050] top-[20px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
+                                errors[0]?.id === 1? <span aria-live="assertive" className=' flex w-[180px] items-center justify-center font-bold left-[30px] p-[7px] px-[20px] text-[12px] font-roboto absolute text-[#f0dd2c] bg-[#00000050] top-[20px] rounded-[10px]'>{errors[0]?.message}</span> : <></>:
                                 <></>
                             }
                             <span className='w-full h-full rounded-[inherit]'>
@@ -145,7 +145,7 @@ export default function Step2({step, setStep}) {
                 
                 <div className='h-[max-content] w-full gap-[24px] flex flex-col-reverse lg:flex-row '>
                     <Button clickAction={previousProcess} text="Back" type='zilch'/>
-                    <Button clickAction={clickHandler} confirm={true} text="Get My Free Ticket" type='accent'/>
+                    <Button clickAction={clickHandler} confirm={true} text={`Get My ${ticketTypes[details?.ticketType]?.amount} Ticket`} type='accent'/>
                 </div> 
             </form>
   )
